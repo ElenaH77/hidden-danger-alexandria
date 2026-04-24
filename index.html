@@ -1354,37 +1354,48 @@ document.querySelectorAll('button.play-all').forEach(btn => {
   const audios = Array.from(card.querySelectorAll('.clip audio'));
   let idx = 0;
   let running = false;
+  let expectedAudio = null;  // the audio we're currently driving
 
-  function playNext() {
-    if (!running || idx >= audios.length) {
-      stop();
-      return;
-    }
-    const a = audios[idx];
-    pauseOthersExcept(a);
-    a.currentTime = 0;
-    const advance = () => { a.removeEventListener('ended', advance); idx++; playNext(); };
-    a.addEventListener('ended', advance);
-    const p = a.play();
-    if (p && p.catch) p.catch(() => { running = false; stop(); });
-  }
   function stop() {
     running = false;
+    expectedAudio = null;
     btn.textContent = '▶ Play all clips in order';
     audios.forEach(a => { try { a.pause(); } catch (_) {} });
   }
+
+  function playNext() {
+    if (!running || idx >= audios.length) { stop(); return; }
+    const a = audios[idx];
+    expectedAudio = a;
+    pauseOthersExcept(a);
+    try { a.currentTime = 0; } catch (_) {}
+    const advance = () => {
+      a.removeEventListener('ended', advance);
+      if (running) { idx++; playNext(); }
+    };
+    a.addEventListener('ended', advance);
+    const p = a.play();
+    if (p && p.catch) p.catch(err => {
+      console.warn('Play All: play() rejected', err);
+      stop();
+    });
+  }
+
   btn.addEventListener('click', () => {
     if (running) { stop(); return; }
-    idx = 0; running = true;
+    idx = 0;
+    running = true;
     btn.textContent = '■ Stop';
+    // Hint browsers to start fetching everything so subsequent clips don't
+    // stall on Safari mobile. Safe even on preload="none".
+    audios.forEach(a => { try { a.load(); } catch (_) {} });
     playNext();
   });
-  // If user clicks any individual clip, stop the play-all sequence.
-  audios.forEach(a => a.addEventListener('play', e => {
-    if (!running) return;
-    // Only stop if the user initiated (not our programmatic play).
-    if (!e.isTrusted) return;
-    stop();
+
+  // If a different audio than the one we expect starts playing, the user
+  // clicked an individual clip — stop our sequence and let theirs play.
+  audios.forEach(a => a.addEventListener('play', () => {
+    if (running && a !== expectedAudio) stop();
   }));
 });
 
