@@ -117,21 +117,55 @@ blockquote cite {
   font-family: "Source Sans 3", sans-serif; margin-top: 10px;
 }
 
-ol.ask {
-  padding-left: 0; list-style: none; counter-reset: ask;
-  margin: 0 0 24px;
-}
-ol.ask > li {
-  counter-increment: ask; position: relative;
-  padding: 16px 0 16px 48px; border-bottom: 0.5px solid var(--hairline);
-}
-ol.ask > li:last-child { border-bottom: 0; }
-ol.ask > li::before {
-  content: counter(ask);
-  position: absolute; left: 0; top: 16px;
+/* Three-layer ask */
+section.prose h3.layer {
   font-family: "Playfair Display", Georgia, serif;
-  font-size: 28px; font-weight: 700; color: var(--accent-navy);
+  font-size: 22px; font-weight: 700;
+  margin: 44px 0 16px;
+  padding-top: 24px;
+  border-top: 0.5px solid var(--hairline);
+  color: var(--fg);
+  line-height: 1.25;
 }
+section.prose h3.layer:first-of-type { margin-top: 32px; }
+
+/* Closing block: three scaffolding sentences then the climax */
+.closing-block {
+  margin: 40px 0 0;
+  padding: 28px 0 0;
+  border-top: 0.5px solid var(--hairline);
+}
+.closing-block p {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 19px; line-height: 1.45;
+  color: var(--fg);
+  margin: 0 0 18px;
+}
+.closing-block p.climax {
+  font-style: italic;
+  font-size: 22px;
+  margin-top: 22px;
+  color: var(--accent-terracotta);
+}
+
+/* Methodology: collapsible like the Background section above the timeline */
+section.methodology details {
+  border-top: 0.5px solid var(--hairline);
+  border-bottom: 0.5px solid var(--hairline);
+  padding: 14px 0;
+}
+section.methodology summary {
+  cursor: pointer;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--accent-navy);
+  list-style: none; padding: 4px 0;
+}
+section.methodology summary::-webkit-details-marker { display: none; }
+section.methodology summary::before { content: "+ "; display: inline-block; width: 22px; color: var(--muted); font-weight: 400; }
+section.methodology details[open] summary::before { content: "− "; }
+section.methodology details[open] summary { margin-bottom: 16px; }
+section.methodology .body { padding-left: 22px; }
 
 /* Timeline + card */
 .timeline-intro { font-size: 14px; color: var(--muted); margin: 12px 0 32px; }
@@ -1207,25 +1241,21 @@ Below is every verified incident I could find from April 1 through April 22,
 
 </section>
 
-<section class="prose charlottesville">
-  <h2>What a comparable Virginia city already does</h2>
+<section class="prose ask">
+  <h2>What Alexandria should do</h2>
+
+<p>What we need isn't one fix. It's three layers, because each one catches
+what the others miss &mdash; and right now, the city is using none of them.</p>
+
+<h3 class="layer">1. Adopt a Charlottesville-style general order.</h3>
 
 <p>Every Virginia city operates under the same statutory reporting threshold
 as Alexandria. Not every city stops there.</p>
 
-<p>Based on my experiences in regular meetings with APD &mdash; in which the
-department reports out on pedestrian, cyclist, and scooter incidents &mdash;
-we are missing roughly two-thirds of these incidents in most read-outs.
-Luckily, a model already exists for what better looks like. Charlottesville,
-Virginia adopted it on January 2, 2020.</p>
-
-<p>Charlottesville Police General Order 542.01 was signed into effect that
-day by then-Chief RaShall Brackney as part of the department's alignment
-with Virginia Law Enforcement Professional Standards Commission (VLEPSC)
-accreditation. The underlying order number &mdash; 83-99 &mdash; suggests
-the framework predates the 2020 revision by decades. It is a routine
-internal departmental policy, not a reaction to any one incident. It has
-quietly been on the books for over five years:</p>
+<p>Charlottesville Police Department General Order 542.01 has been on the
+books in some form since at least 1999, most recently revised in 2020. It is
+a routine internal departmental policy, not a reaction to any single
+tragedy:</p>
 
 <blockquote>
   Whether on public or private property an incident report is required for
@@ -1237,44 +1267,99 @@ quietly been on the books for over five years:</p>
      target="_blank" rel="noopener">View the PDF</a>.</cite>
 </blockquote>
 
-<p>The policy creates an internal record for every pedestrian or bicyclist
-incident, regardless of the state reporting threshold. Alexandria does not
-appear to have an equivalent policy. What Charlottesville has shown is that
-a city can simply decide to document these incidents. It doesn't require
-new legislation, a specific triggering tragedy, or a protracted public
-debate. It's a general order.</p>
+<p>The order creates an internal record for every pedestrian or bicyclist
+incident, regardless of whether the state's reporting threshold is met.
+Alexandria does not appear to have an equivalent policy. Adopting one
+&mdash; and explicitly extending it to scooters, which didn't exist in
+meaningful numbers when Charlottesville's order was last revised &mdash;
+would close the documentation gap for the strikes officers responded to but
+the state never recorded. A cheap and simple ask that I believe would just
+require a policy change to implement.</p>
 
-</section>
+<h3 class="layer">2. Systematically screen dispatch audio every month.</h3>
 
-<section class="prose ask">
-  <h2>What Alexandria should do</h2>
+<p>Even with a Charlottesville-style general order in place, some incidents
+never generate an officer-on-scene response that produces a record. A
+pedestrian refuses medical attention and leaves. A hit-and-run vehicle is
+gone before anyone arrives and the victim doesn't want to wait. A scooter
+rider gets up and walks away.</p>
 
-<ol class="ask">
-  <li><b>Adopt a departmental policy, modeled on Charlottesville's General
-      Order 542.01, requiring an incident report for every pedestrian,
-      cyclist, and scooter strike &mdash; regardless of whether the
-      statutory reporting threshold is met.</b> The policy should explicitly
-      include scooters, which did not exist in meaningful numbers when
-      Charlottesville adopted its policy in 2020.</li>
-  <li><b>Publish the resulting data on the Vision Zero dashboard, or
-      alongside it.</b> Flag incidents as preliminary; update them as
-      investigations conclude; distinguish dispatch-derived incident counts
-      from final reportable-crash counts. Other cities publish EMS-derived
-      and dispatch-derived roadway incident data as a complement to
-      reportable-crash data. Alexandria should too.</li>
-</ol>
+<p>The eighteen incidents documented above were found by listening to
+publicly-available dispatch audio for twenty-two days, transcribing it, and
+reviewing what came up. The tool that did that work exists. Running it for
+a month cost me twenty dollars in transcription credits, plus the AI
+subscription I was already paying for, and a few hours of my time. Any city
+department or community organization could maintain it.</p>
 
-<p>A resident asking &ldquo;how many people were hit by vehicles in
-Alexandria last month?&rdquo; should be able to get an answer within days,
-not eighteen months. That's what Vision Zero requires in spirit. It's also
-what it promises.</p>
+<p>The ask is that someone do this work systematically &mdash; every month,
+going forward. The output isn't perfect, and shouldn't be presented as such.
+It's a starting list, not a finished one. But a starting list lets advocacy
+groups, community associations, and city staff fill in context from a
+template rather than from a blank sheet. It catches incidents that would
+otherwise disappear into refused-medical, no-property-damage,
+no-paperwork silence.</p>
+
+<p>The city should either do this work itself or partner with a community
+organization that can. The pipeline exists; this piece was built using it.
+I'd be happy to help anyone &mdash; at the city or in the community &mdash;
+get a similar one running.</p>
+
+<h3 class="layer">3. Expand the DASH-NVFSS near-miss reporting partnership across city signage.</h3>
+
+<p>Even with both a documentation policy and dispatch monitoring in place,
+two large categories of data are still missing: close calls in which no one
+was hit, and incidents involving people who don't call the police.</p>
+
+<p>Northern Virginia Families for Safe Streets already operates a regional
+near-miss reporting form, modeled on what other cities &mdash; including
+Charlottesville &mdash; run through their own transportation departments.
+Through a formal partnership with DASH, QR codes linking to the NVFSS form
+are now posted at Alexandria bus stops. The data is real, the data is
+published, and the partnership works.</p>
+
+<p>What's missing is reach. A single transit partnership, however
+successful, isn't a citywide signage strategy. The same QR code that works
+on a DASH bus stop would work on a city-maintained crosswalk pole at a
+high-incident intersection, on construction signage where a sidewalk has
+been closed, at the entrance to a city park, at a recreation center, at a
+public school's perimeter signage, at a Capital Bikeshare station.</p>
+
+<p>The construction-signage case is especially direct. A pedestrian forced
+into the street by a closed sidewalk and then hit by a driver &mdash; one
+of the contributing factors at Sanger and Van Dorn this April &mdash; is
+exactly the kind of incident a near-miss form would have surfaced earlier,
+if anyone walking past that closed sidewalk had known the form existed. A
+QR code on the closure sign itself is how the city learns.</p>
+
+<p>And expanding the signage reaches people that the other two data layers
+miss entirely. Residents whose first language isn't English. Residents with
+reasons to avoid law enforcement contact. Residents who simply don't know
+that &ldquo;reporting a near-miss&rdquo; is something they're allowed to
+do. Those are exactly the residents whose experience is currently absent
+from every Vision Zero dataset the city uses. Reaching them isn't a
+nice-to-have; it's the data integrity question at the center of an
+equity-focused safety program.</p>
+
+<div class="closing-block">
+  <p>A resident asking &ldquo;how many people were hit by vehicles in
+  Alexandria last month?&rdquo; should be able to get an answer within
+  days, not eighteen months. A resident reporting a close call on a
+  sidewalk that shouldn't have been closed should not have to know which
+  advocacy organization runs the form. A pedestrian struck and refusing
+  medical attention should still register somewhere as a person Alexandria
+  failed to keep safe.</p>
+
+  <p class="climax">That's what Vision Zero requires in spirit. It's also
+  what it promises.</p>
+</div>
 
 </section>
 
 <section class="prose methodology">
-  <h2>How this was built and what it can and can't show</h2>
-
-<p><b>The tool.</b> A Python program polls
+  <details>
+    <summary>How this was built and what it can and can't show</summary>
+    <div class="body">
+      <p><b>The tool.</b> A Python program polls
 <a href="https://openmhz.com/system/alex" target="_blank" rel="noopener">OpenMHz</a>
 for new recordings from Alexandria Police and Fire dispatch talkgroups,
 transcribes each with OpenAI's Whisper, and flags recordings whose transcripts
@@ -1325,6 +1410,8 @@ flagged transmissions, 73 incident clusters) is preserved in the underlying
 dataset. Raw audio for every incident below was downloaded during the
 review window so it survives the 30-day OpenMHz archive rollover.</p>
 
+    </div>
+  </details>
 </section>
 
 <footer>
